@@ -35,14 +35,14 @@ document.getElementById("deleteForm").addEventListener("submit", async (e) => {
       throw new Error(re.message);
     }
     document.getElementById("deleteSuccess").style.display = "block";
+    document.getElementById("deleteSuccess").innerText = re.message;
+
     setTimeout(() => {
       goHome();
     }, 1500);
   } catch (e) {
     document.getElementById("deleteSuccess").style.display = "block";
-    document.getElementById("deleteSuccess").style.backgroundColor= '#ff4757';
     document.getElementById("deleteSuccess").innerText = e.message.replace("Error:", "");
-    document.getElementById("donationSuccess").style.backgroundColor= '#2ed573';
     setTimeout(() => {
       goHome();
     }, 1500);
@@ -70,14 +70,13 @@ document
       const re = await res.json();
       if(!re.ok)throw new Error(re.message);
       document.getElementById("donationSuccess").style.display = "block";
+      document.getElementById("donationSuccess").innerText = re.message;
       setTimeout(() => {
         goHome();
       }, 1500);
     } catch (e) {
       document.getElementById("donationSuccess").style.display = "block";
-      document.getElementById("donationSuccess").style.backgroundColor= '#ff4757';
       document.getElementById("donationSuccess").innerText = e.message.replace("Error:",'');
-      document.getElementById("donationSuccess").style.backgroundColor= '#2ed573';
       setTimeout(() => {
         goHome();
       }, 1500);
