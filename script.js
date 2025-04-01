@@ -1,14 +1,53 @@
 function goHome() {
+  refresh();
   document
     .querySelectorAll(".form-container")
     .forEach((f) => (f.style.display = "none"));
   document.getElementById("mainPage").style.display = "block";
+}
+function refresh() {
+  location.reload(true);
 }
 
 function showForm(f) {
   document.getElementById("mainPage").style.display = "none";
   document.getElementById(f + "Form").style.display = "block";
 }
+
+function deleteForm(f) {
+  document.getElementById("mainPage").style.display = "none";
+  document.getElementById(f + "Form").style.display = "block";
+}
+
+document.getElementById("deleteForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const deleteData = {
+    email: document.getElementById("dEmail").value,
+  };
+  try {
+    const res = await fetch("http://localhost:5000/delete/", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(deleteData),
+    });
+    const re = await res.json();
+    if (!re.ok) {
+      throw new Error(re.message);
+    }
+    document.getElementById("deleteSuccess").style.display = "block";
+    setTimeout(() => {
+      goHome();
+    }, 1500);
+  } catch (e) {
+    document.getElementById("deleteSuccess").style.display = "block";
+    document.getElementById("deleteSuccess").style.backgroundColor= '#ff4757';
+    document.getElementById("deleteSuccess").innerText = e.message.replace("Error:", "");
+    document.getElementById("donationSuccess").style.backgroundColor= '#2ed573';
+    setTimeout(() => {
+      goHome();
+    }, 1500);
+  }
+});
 
 document
   .getElementById("donationForm")
@@ -23,29 +62,32 @@ document
     };
     console.log(donorData);
     try {
-      await fetch("https://bloodbudapi.onrender.com/post/", {
+      const res = await fetch("http://localhost:5000/post/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(donorData),
-      }).then(() => {
-        document.getElementById("donationSuccess").style.display = "block";
-        setTimeout(() => {
-          goHome();
-        }, 1500);
       });
+      const re = await res.json();
+      if(!re.ok)throw new Error(re.message);
+      document.getElementById("donationSuccess").style.display = "block";
+      setTimeout(() => {
+        goHome();
+      }, 1500);
     } catch (e) {
-        document.getElementById("donationSuccess").style.display = "block";
-        document.getElementById("donationSuccess").innerText = e.message;
-        setTimeout(() => {
-          goHome();
-        }, 1500);
+      document.getElementById("donationSuccess").style.display = "block";
+      document.getElementById("donationSuccess").style.backgroundColor= '#ff4757';
+      document.getElementById("donationSuccess").innerText = e.message.replace("Error:","");
+      document.getElementById("donationSuccess").style.backgroundColor= '#2ed573';
+      setTimeout(() => {
+        goHome();
+      }, 1500);
     }
   });
 
 async function findDonors() {
   const bg = document.getElementById("requiredBloodGroup").value;
   try {
-    const res = await fetch(`https://bloodbudapi.onrender.com/get/${bg}`);
+    const res = await fetch(`http://localhost:5000/get/${bg}`);
     const donors = await res.json();
     const rc = document.getElementById("donorResults");
     rc.innerHTML = "";
@@ -58,6 +100,7 @@ async function findDonors() {
       ? "none"
       : "block";
   } catch (e) {
-    console.error(e);
+    document.getElementById("noDonors").style.display = "block";
+    document.getElementById("noDonors").innerText= e.message;
   }
 }
