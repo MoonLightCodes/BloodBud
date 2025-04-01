@@ -76,7 +76,7 @@ document
     } catch (e) {
       document.getElementById("donationSuccess").style.display = "block";
       document.getElementById("donationSuccess").style.backgroundColor= '#ff4757';
-      document.getElementById("donationSuccess").innerText = e.message.replace("Error:","");
+      document.getElementById("donationSuccess").innerText = e.message.replace("Error:",'');
       document.getElementById("donationSuccess").style.backgroundColor= '#2ed573';
       setTimeout(() => {
         goHome();
