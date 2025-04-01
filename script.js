@@ -23,7 +23,7 @@ document
     };
     console.log(donorData);
     try {
-      await fetch("http://localhost:5000/post/", {
+      await fetch("https://bloodbudapi.onrender.com/post/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(donorData),
@@ -45,7 +45,7 @@ document
 async function findDonors() {
   const bg = document.getElementById("requiredBloodGroup").value;
   try {
-    const res = await fetch(`http://localhost:5000/get/${bg}`);
+    const res = await fetch(`https://bloodbudapi.onrender.com/get/${bg}`);
     const donors = await res.json();
     const rc = document.getElementById("donorResults");
     rc.innerHTML = "";
