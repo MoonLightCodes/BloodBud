@@ -25,7 +25,7 @@ document.getElementById("deleteForm").addEventListener("submit", async (e) => {
     email: document.getElementById("dEmail").value,
   };
   try {
-    const res = await fetch("http://localhost:5000/delete/", {
+    const res = await fetch("https://bloodbudapi.onrender.com/delete/", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(deleteData),
@@ -62,7 +62,7 @@ document
     };
     console.log(donorData);
     try {
-      const res = await fetch("http://localhost:5000/post/", {
+      const res = await fetch("https://bloodbudapi.onrender.com/post/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(donorData),
@@ -86,7 +86,7 @@ document
 async function findDonors() {
   const bg = document.getElementById("requiredBloodGroup").value;
   try {
-    const res = await fetch(`http://localhost:5000/get/${bg}`);
+    const res = await fetch(`https://bloodbudapi.onrender.com/get/${bg}`);
     const donors = await res.json();
     const rc = document.getElementById("donorResults");
     rc.innerHTML = "";
